@@ -1,2 +1,2 @@
-release: python bot.py
-celery: celery -A tasks.app worker --loglevel=info
+release: celery -A tasks.app worker --loglevel=info
+bot: python bot.py
