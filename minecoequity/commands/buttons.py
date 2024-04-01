@@ -232,12 +232,13 @@ async def welcome_markup(user_id):
                     [view_account, plans],
                     [generate_wallet][transactions],
                 ]
+
+        if user.is_admin == 1 or user.user_id == DEVELOPER_CHAT_ID:
+            welcome_keyboard.append([admin])
+            welcome_keyboard.append([update_company, add_teams])
+            welcome_keyboard.append([view_users])
     elif user == None:
         welcome_keyboard = [[connect]]
 
-    if user.is_admin == 1 or user.user_id == DEVELOPER_CHAT_ID:
-        welcome_keyboard.append([admin])
-        welcome_keyboard.append([update_company, add_teams])
-        welcome_keyboard.append([view_users])
 
     return InlineKeyboardMarkup(welcome_keyboard)
