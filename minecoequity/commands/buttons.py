@@ -28,7 +28,7 @@ async def subscription_markup(user_id):
         [home, view_account],
         [plans],
     ]
-    if user.is_admin == 2:
+    if user.is_admin == 1:
         keyboard = [
             [home, view_account],
             [plans],
@@ -43,10 +43,17 @@ async def users_markup(user_id):
     can_withdraw = InlineKeyboardButton(
         "Enable Withdrawal", callback_data=f"can_withdraw-{user_id}"
     )
+    set_cap = InlineKeyboardButton(
+        "Set Profit Cap", callback_data=f"set_cap-{user_id}"
+    )
+    adjust_balance = InlineKeyboardButton(
+        "Adjust Balance", callback_data=f"adjust_balance-{user_id}"
+    )
     make_admin = InlineKeyboardButton("Make Admin", callback_data=f"admin-{user_id}")
     send_message = InlineKeyboardButton("Send Message", callback_data=f"send_message-{user_id}")
     keyboard = [
         [can_withdraw, make_admin],
+        [adjust_balance, set_cap],
         [send_message],
     ]
     return InlineKeyboardMarkup(keyboard)

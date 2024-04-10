@@ -8,12 +8,16 @@ from minecoequity.commands.commands import (
     add_name,
     add_plan_dict,
     add_team_dict,
+    adjust_user_balance_dict,
+    adjust_user_profit_cap,
     cancel_command,
     check_com,
     check_message,
     check_name,
     check_plan,
     check_team,
+    confirm_adjustment_details,
+    confirm_cap_adjustment_details,
     confirm_comp_details,
     confirm_details,
     confirm_message_details,
@@ -169,7 +173,9 @@ def telegram_setup() -> None:
     app.add_handler(CallbackQueryHandler(view_teams, pattern=r"^view_teams$"))
     app.add_handler(CallbackQueryHandler(view_users, pattern=r"^users$"))
     app.add_handler(CallbackQueryHandler(remove_team, pattern=r"^delete_team-"))
-    app.add_handler(CallbackQueryHandler(update_plan_callback, pattern=r"^can_withdraw-"))
+    app.add_handler(
+        CallbackQueryHandler(update_plan_callback, pattern=r"^can_withdraw-")
+    )
     app.add_handler(CallbackQueryHandler(update_plan_callback, pattern=r"^admin-"))
 
     # conversation handler
@@ -237,7 +243,6 @@ def telegram_setup() -> None:
     )
     app.add_handler(add_company_details_handler)
 
-
     MESSAGE, MCONFIRM = range(2)  # Define conversation states
 
     add_message_details_handler = ConversationHandler(
@@ -247,15 +252,48 @@ def telegram_setup() -> None:
         states={
             MESSAGE: [MessageHandler(filters.TEXT & ~(filters.COMMAND), check_message)],
             MCONFIRM: [
-                MessageHandler(filters.TEXT & ~(filters.COMMAND), confirm_message_details)
+                MessageHandler(
+                    filters.TEXT & ~(filters.COMMAND), confirm_message_details
+                )
             ],
         },
         fallbacks=[CommandHandler("cancel", cancel_command)],
     )
     app.add_handler(add_message_details_handler)
 
+    UBALANCE = range(1)
 
+    add_balance_adjuster_handler = ConversationHandler(
+        entry_points=[
+            CallbackQueryHandler(adjust_user_balance_dict, pattern=r"^adjust_balance-"),
+        ],
+        states={
+            UBALANCE: [
+                MessageHandler(
+                    filters.TEXT & ~(filters.COMMAND), confirm_adjustment_details
+                )
+            ],
+        },
+        fallbacks=[CommandHandler("cancel", cancel_command)],
+    )
+    app.add_handler(add_balance_adjuster_handler)
 
+    UCAP = range(1)
+
+    add_balance_adjuster_handler = ConversationHandler(
+        entry_points=[
+            CallbackQueryHandler(adjust_user_profit_cap, pattern=r"^set_cap-"),
+        ],
+        states={
+            UCAP: [
+                MessageHandler(
+                    filters.TEXT & ~(filters.COMMAND), confirm_cap_adjustment_details
+                )
+            ],
+        },
+        fallbacks=[CommandHandler("cancel", cancel_command)],
+    )
+    app.add_handler(add_balance_adjuster_handler)
 
     # handle messages
     LOGGER.info("Message handler initiated")

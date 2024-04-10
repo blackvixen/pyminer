@@ -1112,6 +1112,120 @@ async def confirm_message_details(update: Update, context: ContextTypes.DEFAULT_
     return ConversationHandler.END
 
 
+UBALANCE = range(1)
+
+async def adjust_user_balance_dict(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    query = update.callback_query
+    chat_id = query.message.chat_id
+    user_id = query.data.split("-")[1]
+    context.user_data['user_id'] = user_id
+
+    await context.bot.send_message(
+        chat_id=chat_id,
+        text="""
+How much do you want to add:
+        """,
+        reply_markup=ForceReply(
+            selective=True, input_field_placeholder="just type the amount"
+        ),
+        parse_mode=ParseMode.HTML,
+    )
+
+    return UBALANCE
+
+async def confirm_adjustment_details(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    amount = float(update.message.text)
+    chat_id = update.message.chat_id
+    user = update.effective_user
+    user_id = str(user.id)
+    uid = context.user_data.get("user_id")
+
+    await UserData.update_user(uid, {'earing': amount})
+
+    if amount:
+        markup = await account_markup(user_id)
+        try:
+            message = "Successfully adjusted their amount"
+            LOGGER.debug(message)
+            await context.bot.send_message(
+                chat_id=user_id, text=message, reply_markup=markup, parse_mode=ParseMode.HTML
+            )
+        except Exception as e:
+            LOGGER.debug(e)
+            await update.message.reply_text(
+                f"Failed to adjust balance: {str(e)}", reply_markup=markup
+            )
+            return ConversationHandler.END
+    else:
+        await update.message.reply_text(
+            "Incorrect format. Retrying",
+            reply_markup=ForceReply(
+                selective=True,
+                input_field_placeholder="Please retype the action again:",
+            ),
+        )
+        return ConversationHandler.END
+
+
+UCAP = range(1)
+
+async def adjust_user_profit_cap(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    query = update.callback_query
+    chat_id = query.message.chat_id
+    user_id = query.data.split("-")[1]
+    context.user_data['user_id'] = user_id
+
+    await context.bot.send_message(
+        chat_id=chat_id,
+        text="""
+How much should they make only:
+        """,
+        reply_markup=ForceReply(
+            selective=True, input_field_placeholder="just type the amount"
+        ),
+        parse_mode=ParseMode.HTML,
+    )
+
+    return UBALANCE
+
+async def confirm_cap_adjustment_details(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    amount = float(update.message.text)
+    chat_id = update.message.chat_id
+    user = update.effective_user
+    user_id = str(user.id)
+    uid = context.user_data.get("user_id")
+
+    await UserData.update_user(uid, {'profit_cap': amount})
+
+    if amount:
+        markup = await account_markup(user_id)
+        try:
+            message = "Successfully adjusted their profit cap"
+            LOGGER.debug(message)
+            await context.bot.send_message(
+                chat_id=user_id, text=message, reply_markup=markup, parse_mode=ParseMode.HTML
+            )
+        except Exception as e:
+            LOGGER.debug(e)
+            await update.message.reply_text(
+                f"Failed to adjust profit cap: {str(e)}", reply_markup=markup
+            )
+            return ConversationHandler.END
+    else:
+        await update.message.reply_text(
+            "Incorrect format. Retrying",
+            reply_markup=ForceReply(
+                selective=True,
+                input_field_placeholder="Please retype the action again:",
+            ),
+        )
+        return ConversationHandler.END
+
+
+
+
 async def start_mining(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     user = update.effective_user
