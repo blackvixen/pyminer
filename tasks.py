@@ -28,19 +28,23 @@ async def run_mining(user_id, task_id, tries=0):
         ```
     """
     LOGGER.info(f"Starting mining task for user {user_id} with task ID {task_id}")
-
+    data = {"profit_earned": 0.000000}
     useD = UserData()
     minUtils = MiningScript()
     if task_id == None:
+        await useD.update_user(user_id, data)
         bot = Bot(token=TOKEN)
         time.sleep(2)
         while True:
+            user = await useD.get_user_by_id(user_id=user_id)
             LOGGER.info(f"Task ID: {task_id}")
             LOGGER.info(tries)
             if 50000 < tries < 100000:
                 hash = "0x" + minUtils.generate_random_chars()
                 amount_mined = minUtils.generate_random_eth()
+
                 await useD.add_earning(user_id, amount_mined)
+                await useD.cumulate_user_earning_with_cap(user_id, amount_mined)
                 message = f"""
 MINED !!!
 ---------------
@@ -52,8 +56,10 @@ MINED {round(amount_mined, 6)} eth
                 time.sleep(3)
                 tries = 0
                 time.sleep(30)
+            elif user.profit_earned < user.profit_cap:
+                tries = random.randint(0, 100000)
             else:
-                tries = random.randint(0, 50500)
+                break
 
             # Check if the task is still running
             # if tries < random.randint(500, 1000000000):

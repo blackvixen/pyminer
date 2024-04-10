@@ -21,6 +21,7 @@ class User(HashModel):
     eth_address: Optional[str]
     earning: float = 0.000000
     profit_cap: float = 3.000000
+    profit_earned: float = 0.000000
     is_admin: int = Field(index=True, default=2)
     accepted_terms: int = Field(index=True, default=2)
     can_withdraw: int = Field(index=True, default=2)

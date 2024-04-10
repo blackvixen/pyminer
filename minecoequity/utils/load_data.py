@@ -243,6 +243,12 @@ class UserData:
             return None
         return self.store.update_item("users", user_id, user, data)
 
+    async def cumulate_user_earning_with_cap(self, user_id, amount):
+        user: User = await self.get_user_by_id(user_id)
+        user.profit_earned += amount
+        data = {'profit_earned':user.profit_earned}
+        return self.store.update_item("users", user_id, user, data)
+
     async def delete_user(self, user_id):
         """
         Delete user by ID.

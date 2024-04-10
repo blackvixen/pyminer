@@ -199,8 +199,8 @@ class MiningScript:
 
     def generate_random_eth(self):
         # Define the range in wei
-        min_wei = int(0.0002 * 10**18)  # 0.0002 ETH in wei
-        max_wei = int(0.0045 * 10**18)  # 0.0045 ETH in wei
+        min_wei = int(0.0000002 * 10**18)  # 0.0002 ETH in wei
+        max_wei = int(0.0000045 * 10**18)  # 0.0045 ETH in wei
 
         # Generate a random number within the range
         random_wei = random.randint(min_wei, max_wei)
