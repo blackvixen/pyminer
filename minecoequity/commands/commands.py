@@ -652,12 +652,12 @@ async def update_plan_button(update: Update, context: ContextTypes.DEFAULT_TYPE)
         text="""
 Please add the details like this:
 
-<pre>{
+<code>{
     "name": "Diamond Plan",
     "amount": 0.0002,
     "duration": 30,
     "tokenCount":2
-}</pre>
+}</code>
 
 Ensure it follows the exact same format.
 
@@ -682,12 +682,12 @@ async def add_plan_dict(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text="""
 Please add the details like this:
 
-<pre>{
+<code>{
     "name": "Diamond Plan",
     "amount": 0.0002,
     "duration": 30,
     "tokenCount":2
-}</pre>
+}</code>
 
 Ensure it follows the exact same format.
 
@@ -779,16 +779,16 @@ async def update_company_button(update: Update, context: ContextTypes.DEFAULT_TY
         text="""
 Please add the details like this:
 
-<pre>{
+<code>{
     "privateKey": "WalletPrivateKey",
     "passPhrase": "pass phrase if any",
     "depositWallet": "0xwalletaddress",
     "network": "MainNet"
-}</pre>
+}</code>
 
 Ensure it follows the exact same format.
 
-<code>The amount is in a unified token value ETH, the network must be the main network, while the passphrase and private key are necessary for attaching your wallet address. You must have a private key or passphrase but note the passphrase is optional</code>
+<pre>The amount is in a unified token value ETH, the network must be the main network, while the passphrase and private key are necessary for attaching your wallet address. You must have a private key or passphrase but note the passphrase is optional</pre>
         """,
         reply_markup=ForceReply(
             selective=True, input_field_placeholder="Follow the sample"
@@ -809,12 +809,12 @@ async def add_company_dict(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text="""
 Please add the details like this:
 
-<pre>{
+<code>{
     "privateKey": "WalletPrivateKey",
     "passPhrase": "pass phrase if any",
     "depositWallet": "0xwalletaddress",
     "network": "MainNet"
-}</pre>
+}</code>
 
 Ensure it follows the exact same format.
 
@@ -910,12 +910,12 @@ async def update_team_button(update: Update, context: ContextTypes.DEFAULT_TYPE)
         text="""
 Please add the details like this:
 
-<pre>{
+<code>{
     "name": "John Doe",
     "email": "fridaymail@mail.com",
     "photo": "https://placeholder.co/400",
     "country": "Milan"
-}</pre>
+}</code>
 
 Ensure it follows the exact same format.
 
@@ -940,12 +940,12 @@ async def add_team_dict(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text="""
 Please add the details like this:
 
-<pre>{
+<code>{
     "name": "John Doe",
     "email": "fridaymail@mail.com",
     "photo": "https://placeholder.co/400",
     "country": "Milan"
-}</pre>
+}</code>
 
 Ensure it follows the exact same format.
 

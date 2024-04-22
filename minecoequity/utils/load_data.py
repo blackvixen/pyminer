@@ -599,6 +599,7 @@ class SubscriptionPlanData:
         :return: ID of the created subscription plan.
         :rtype: int
         """
+        LOGGER.debug(f"saving plan: {data}")
         new_plan = SubscriptionPlan(**data)
         self.store.store_item("subplans", new_plan.pk, new_plan.dict())
         return self.get_subscriptions()
