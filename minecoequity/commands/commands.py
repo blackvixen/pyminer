@@ -179,7 +179,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def cancel_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     user = update.effective_user
-    chat_id = query.message.chat_id if query.message else user.id
+    chat_id = query.message.chat_id if query else user.id
     LOGGER.debug(f"{user.first_name} Has Canceled the conversation")
     cancel_message = "Alright Mate! I hope we can continue from where we left off."
     markup = await welcome_markup(user.id)
