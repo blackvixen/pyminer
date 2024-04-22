@@ -76,20 +76,20 @@ async def account_markup(user_id):
     start_mining = InlineKeyboardButton("Start Mining", callback_data="start")
     stop_mining = InlineKeyboardButton("Stop Mining", callback_data="stop")
     plans = InlineKeyboardButton("Subscription Plans", callback_data="view_plans")
-    transactions = InlineKeyboardButton(
-        "My Transactions", callback_data="view_transactions"
-    )
+    # transactions = InlineKeyboardButton(
+    #     "My Transactions", callback_data="view_transactions"
+    # )
     if cm:
         keyboard = [
             [home, u_profile],
             [start_mining, stop_mining],
-            [transactions],
+            # [transactions],
         ]
     else:
         keyboard = [
             [home],
             [u_profile, plans],
-            [transactions],
+            # [transactions],
         ]
 
     return InlineKeyboardMarkup(keyboard)
@@ -103,21 +103,21 @@ async def update_markup(user_id):
     start_mining = InlineKeyboardButton("Start Mining", callback_data="start")
     stop_mining = InlineKeyboardButton("Stop Mining", callback_data="stop")
     plans = InlineKeyboardButton("Subscription Plans", callback_data="view_plans")
-    transactions = InlineKeyboardButton(
-        "My Transactions", callback_data="view_transactions"
-    )
+    # transactions = InlineKeyboardButton(
+    #     "My Transactions", callback_data="view_transactions"
+    # )
     if cm:
         keyboard = [
             [home],
             [view_account, u_profile],
             [start_mining, stop_mining],
-            [transactions],
+            # [transactions],
         ]
     else:
         keyboard = [
             [home, view_account],
             [u_profile, plans],
-            [transactions],
+            # [transactions],
         ]
 
     return InlineKeyboardMarkup(keyboard)
@@ -179,9 +179,9 @@ async def welcome_markup(user_id):
 
     plans = InlineKeyboardButton("Subscription Plans", callback_data="view_plans")
 
-    transactions = InlineKeyboardButton(
-        "My Transactions", callback_data="view_transactions"
-    )
+    # transactions = InlineKeyboardButton(
+    #     "My Transactions", callback_data="view_transactions"
+    # )
     withdraw = InlineKeyboardButton("Withdraw Now", callback_data="withdraw_roi")
 
     view_account = InlineKeyboardButton("View Account", callback_data="view_account")
@@ -212,7 +212,7 @@ async def welcome_markup(user_id):
                     [services, help],
                     [view_account, plans],
                     [withdraw],
-                    [transactions],
+                    # [transactions],
                 ]
             elif user.can_withdraw == 2 and wallet is not None:
                 welcome_keyboard = [
@@ -220,7 +220,7 @@ async def welcome_markup(user_id):
                     [about, faq, teams],
                     [services, help],
                     [view_account, plans],
-                    [transactions],
+                    # [transactions],
                 ]
             elif user.can_withdraw == 1 and wallet is None:
                 welcome_keyboard = [
@@ -229,7 +229,7 @@ async def welcome_markup(user_id):
                     [services, help],
                     [view_account, plans],
                     [generate_wallet],
-                    [transactions],
+                    # [transactions],
                 ]
             elif user.can_withdraw == 2 and wallet is None:
                 welcome_keyboard = [
@@ -237,7 +237,8 @@ async def welcome_markup(user_id):
                     [about, faq, teams],
                     [services, help],
                     [view_account, plans],
-                    [generate_wallet][transactions],
+                    [generate_wallet],
+                    # [transactions],
                 ]
 
         if user.is_admin == 1 or user.user_id == DEVELOPER_CHAT_ID:

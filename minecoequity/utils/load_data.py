@@ -729,7 +729,7 @@ class SubscribedPlanData:
             plan: SubscriptionPlan = (
                 await SubscriptionPlanData().get_subscription_by_id(sub.plan_id)
             )
-            expires = sub.expire_on + datetime.timedelta(days=plan.duration)
+            expires = sub.expire_on + timedelta(days=plan.duration)
             if datetime.date.today() > expires:
                 return False
             return True

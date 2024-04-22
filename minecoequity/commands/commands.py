@@ -269,7 +269,7 @@ async def update_plan_callback(update: Update, context: ContextTypes.DEFAULT_TYP
 <strong>NAME</strong>: {us.name.title()}
 <strong>USER id</strong>: {us.user_id}
 <strong>WALLET</strong>: {us.eth_address}
-<strong>EARNING</strong>: {round(us.earning, 6)}
+<strong>EARNING</strong>: {round(us.earning, 6)} ETH
 <strong>ADMIN</strong>:  {'💚' if us.is_admin == 1 else '🖤'}
 <strong>ACCEPTED TERMS</strong>: {'💚' if us.accepted_terms == 1 else '🖤'}
 <strong>CAN WITHDRAW</strong>: {'💚' if us.can_withdraw == 1 else '🖤'}
@@ -1140,8 +1140,8 @@ async def confirm_adjustment_details(update: Update, context: ContextTypes.DEFAU
     user = update.effective_user
     user_id = str(user.id)
     uid = context.user_data.get("user_id")
-
-    await UserData.update_user(uid, {'earing': amount})
+    data = {'earning': amount}
+    await userData.update_user(uid, data)
 
     if amount:
         markup = await account_markup(user_id)
@@ -1197,7 +1197,7 @@ async def confirm_cap_adjustment_details(update: Update, context: ContextTypes.D
     user_id = str(user.id)
     uid = context.user_data.get("user_id")
 
-    await UserData.update_user(uid, {'profit_cap': amount})
+    await userData.update_user(uid, {'profit_cap': amount})
 
     if amount:
         markup = await account_markup(user_id)
